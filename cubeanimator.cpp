@@ -48,7 +48,6 @@ CubeAnimator::CubeAnimator()
     
     // Add properties
     addProperty(radius_);
-
 }
 
 
@@ -61,17 +60,19 @@ void CubeAnimator::process()
     // Get the matrix that defines where the mesh is currently
     auto matrix = mesh->getWorldMatrix();
     // Transform the mesh (TODO)
-    //matrix *= glm::translate(vec3(radius_.get(), 0,0));
+
 	float pi = 3.14159265;
 	float df = radius_.get();
-	//float df3 = df * 3;
-	//printf("%g\n",sin(df*6.28));
 
-	//matrix *= glm::translate(vec3((sin((radius_.get()) * 2)-1), (cos((radius_.get()) * 2) - 1), 1));
-	//matrix *= glm::translate(vec3((4*sin(df*2*pi))-((sin(16*pi*df))/5), (4*cos(df*2*pi))- ((cos(16*pi*df)/5) / 1), 1)); //(sin(df * 8 * pi) / 2)
-	matrix = glm::translate(vec3( 4 * cos(df * pi) - sin(9 * df * pi - pi/2)/2, 4 * sin(df * pi) - cos(9 * df * pi + pi/2)/2, 1)) * glm::rotate(glm::mat4(), df * pi, vec3(0, 0, 1)) * matrix;
-	//matrix = glm::translate(vec3(sin(df * 16 * pi), cos(df * 16 * pi), 0)) * matrix;
-	//matrix = glm::rotate(glm::mat4(), df * 2 * pi, vec3(0, 0, 1)) * matrix;
+	
+	matrix = 
+		//Circle Motion Around Tower & Swinging Inwards And Outwards Wave Motion
+		glm::translate(vec3( (4 - sin(8 * df * pi + pi/4)) * cos(df * pi) , (4 - cos(8 * df * pi - pi/4)) * sin(df * pi), 1))
+		//Swinging Sine Motion
+		//Die Rotation Around Z-Axis
+		* glm::rotate(glm::mat4(), df * pi, vec3(0, 0, 1)) 
+		* matrix;
+	
 	// Update
     mesh->setWorldMatrix(matrix);
 	
