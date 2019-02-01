@@ -33,14 +33,15 @@ const ProcessorInfo CubeAnimator::getProcessorInfo() const
 
 
 CubeAnimator::CubeAnimator()
-    :Processor()
-    // Ports
-    , meshIn_("meshIn")
-    , meshOut_("meshOut")
-    // Properties 
-    // For a FloatProperty 
-    // variablename(identifier, display name, init value, minvalue, maxvalue)
-    , radius_("radius", "Radius", 1, 0, 2)
+	:Processor()
+	// Ports
+	, meshIn_("meshIn")
+	, meshOut_("meshOut")
+	// Properties 
+	// For a FloatProperty 
+	// variablename(identifier, display name, init value, minvalue, maxvalue)
+	, radius_("radius", "Radius", 1, 0, 2)
+	, hello_("hello", "Hello", 0, 0, 5)
 {
     // Add ports
     addPort(meshIn_);
@@ -48,6 +49,7 @@ CubeAnimator::CubeAnimator()
     
     // Add properties
     addProperty(radius_);
+	addProperty(hello_);
 }
 
 
@@ -63,8 +65,9 @@ void CubeAnimator::process()
 
 	float pi = 3.14159265;
 	float df = radius_.get();
-
 	
+	printf("%g\n", hello_.get());
+
 	matrix = 
 		//Circle Motion Around Tower & Swinging Inwards And Outwards Wave Motion
 		glm::translate(vec3( (4 - sin(8 * df * pi + pi/4)) * cos(df * pi) , (4 - cos(8 * df * pi - pi/4)) * sin(df * pi), 1))
