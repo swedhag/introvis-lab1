@@ -53,22 +53,40 @@ void Chaikin::CornerCutting(const std::vector<vec3>& ControlPolygon,
                             std::vector<vec3>& Curve)
 {
     //TODO: Extend and edit this code
-    //Curve.clear();
-
+	for (int z(0); z < ControlPolygon.size(); z++) {
+		//std::cout << newCurve[k];
+		std::cout << 'h' << ControlPolygon[z] << '\n';
+	}
+    Curve.clear();
+	std::vector<vec3> newCurve;
     const size_t NumPointsPerPolygonLeg = 1 + MinNumDesiredPoints / ControlPolygon.size();
     Curve.reserve(NumPointsPerPolygonLeg * ControlPolygon.size());
+	newCurve.reserve(NumPointsPerPolygonLeg * ControlPolygon.size());
 	//Curve.clear();
-    for(size_t i(0);i<ControlPolygon.size();i++)
+	for (int i(0); i < ControlPolygon.size(); i++)
+	{
+		Curve.push_back(ControlPolygon[i]);
+	}
+    for(size_t i(0);i<MinNumDesiredPoints -1 ;i++)
     {
-        const vec3& LeftPoint = ControlPolygon[i];
-        const vec3& RightPoint = ControlPolygon[(i+1) % ControlPolygon.size()];
+		newCurve.clear();
+
 
         //Linearly interpolate between left and right point in the t-interval [0,1)
-        for(size_t j(0);j<NumPointsPerPolygonLeg;j++)
+        for(size_t j(0);j<Curve.size();j++)
         {
-            const float t = float(j) / float(NumPointsPerPolygonLeg); //Gives values from 0 to almost 1
-            Curve.push_back((1-t) * LeftPoint + t * RightPoint);
+			const vec3& LeftPoint = Curve[j];
+			const vec3& RightPoint = Curve[(j + 1) % Curve.size()];
+			const float t = 0.25;
+            newCurve.push_back((1-t) * LeftPoint + t * RightPoint);
+			newCurve.push_back(t*LeftPoint + (1 - t) * RightPoint);
         }
+		Curve.clear();
+		Curve = newCurve;
+		for (int k(0); k < 6; k++) {
+			//std::cout << newCurve[k];
+			std::cout << Curve[k] << k << newCurve[k] << '\n';
+		}
     }
 }
 
